@@ -2,6 +2,7 @@ import os
 import requests
 import sys
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
 
 def download_file():
@@ -17,12 +18,10 @@ def download_file():
 
 
 def print_summary(data: pd.DataFrame):
-    print(data.shape[0])
-    print(data.shape[1])
-    print(data.isna().any().any())
-    print(max(data["Room"]))
-    print(data["Area"].mean())
-    print(len(data["Zip_loc"].unique()))
+    X_train, X_test, y_train, y_test = train_test_split(data[["Area", "Room", "Lon", "Lat", "Zip_area", "Zip_loc"]],
+                                                        data["Price"], test_size=0.3, random_state=1,
+                                                        stratify=data["Zip_loc"])
+    print(X_train["Zip_loc"].value_counts().to_dict())
 
 
 def main():

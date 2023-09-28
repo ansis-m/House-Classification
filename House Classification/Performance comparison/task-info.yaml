@@ -105,5 +105,9 @@ files:
     if __name__ == '__main__':    CompareTest().run_tests()
   learner_created: false
 feedback_link: https://hyperskill.org/projects/370/stages/2193/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">Hyperskill</a>
+    to continue learning.
+  time: "Thu, 28 Sep 2023 15:53:05 UTC"
 record: -1

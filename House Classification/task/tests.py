@@ -1,3 +1,3 @@
-from test.tests import TargetTest
+from test.tests import CompareTest
 
-if __name__ == '__main__':    TargetTest().run_tests()
+if __name__ == '__main__':    CompareTest().run_tests()

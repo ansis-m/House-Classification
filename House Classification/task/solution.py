@@ -20,7 +20,7 @@ def download_file():
         sys.stderr.write("[INFO] Loaded.\n")
 
 
-def one_hot_encode(X_train, X_test):
+def ordinal_encode(X_train, X_test):
     columns_to_encode = ['Zip_area', 'Zip_loc', 'Room']
     encoder = OrdinalEncoder()
 
@@ -43,7 +43,7 @@ def print_summary(data: pd.DataFrame):
                                                         data["Price"], test_size=0.3, random_state=1,
                                                         stratify=data["Zip_loc"])
 
-    X_train_transformed, X_test_transformed = one_hot_encode(X_train, X_test)
+    X_train_transformed, X_test_transformed = ordinal_encode(X_train, X_test)
     clf = DecisionTreeClassifier(criterion='entropy', max_features=3, splitter='best', max_depth=6, min_samples_split=4,
                                  random_state=3)
 

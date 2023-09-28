@@ -1,3 +1,3 @@
-from test.tests import OrdinalTest
+from test.tests import TargetTest
 
-if __name__ == '__main__':    OrdinalTest().run_tests()
+if __name__ == '__main__':    TargetTest().run_tests()

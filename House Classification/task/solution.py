@@ -5,6 +5,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import OrdinalEncoder
+from category_encoders import TargetEncoder
+# from sklearn.preprocessing import TargetEncoder
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 
@@ -21,31 +23,31 @@ def download_file():
         sys.stderr.write("[INFO] Loaded.\n")
 
 
-def one_hot_encode(X_train, X_test):
+def one_hot_encode(X_train, X_test, y_train):
     columns_to_encode = ['Zip_area', 'Zip_loc', 'Room']
 
-    encoder = OrdinalEncoder()
+    encoder = TargetEncoder(cols=columns_to_encode)
 
     X_train_transformed = X_train.copy()
     X_test_transformed = X_test.copy()
 
-    transformed_train = encoder.fit_transform(X_train_transformed[columns_to_encode])
-    transformed_test = encoder.transform(X_test_transformed[columns_to_encode])
+    X_train_transformed = encoder.fit_transform(X_train_transformed, y_train)
+    X_test_transformed = encoder.transform(X_test_transformed)
     # ct = OrdinalEncoder(drop='first', sparse_output=False)
     #
     # transformed_train = ct.fit_transform(X_train[columns_to_encode])
     # transformed_test = ct.transform(X_test[columns_to_encode])
     #
-    X_train_transformed = pd.DataFrame(transformed_train, index=X_train.index)
-    X_test_transformed = pd.DataFrame(transformed_test, index=X_test.index)
-
-    X_train_final = X_train[['Area', 'Lon', 'Lat']].join(X_train_transformed)
-    X_test_final = X_test[['Area', 'Lon', 'Lat']].join(X_test_transformed)
+    # X_train_transformed = pd.DataFrame(transformed_train, index=X_train.index)
+    # X_test_transformed = pd.DataFrame(transformed_test, index=X_test.index)
     #
-    X_train_final.columns = X_train_final.columns.astype(str)
-    X_test_final.columns = X_test_final.columns.astype(str)
+    # X_train_final = X_train[['Area', 'Lon', 'Lat']].join(X_train_transformed)
+    # X_test_final = X_test[['Area', 'Lon', 'Lat']].join(X_test_transformed)
+    # #
+    # X_train_final.columns = X_train_final.columns.astype(str)
+    # X_test_final.columns = X_test_final.columns.astype(str)
 
-    return X_train_final, X_test_final
+    return X_train_transformed, X_test_transformed
 
 
 def print_summary(data: pd.DataFrame):
@@ -53,7 +55,7 @@ def print_summary(data: pd.DataFrame):
                                                         data["Price"], test_size=0.3, random_state=1,
                                                         stratify=data["Zip_loc"])
 
-    X_train_transformed, X_test_transformed = one_hot_encode(X_train.copy(), X_test.copy())
+    X_train_transformed, X_test_transformed = one_hot_encode(X_train.copy(), X_test.copy(), y_train)
     clf = DecisionTreeClassifier(criterion='entropy', max_features=3, splitter='best', max_depth=6, min_samples_split=4,
                                  random_state=3)
 

@@ -2,10 +2,9 @@ import ast
 from hstest.stage_test import List
 from hstest import *
 
-correct_answer = 0.8836363636363637
+correct_answer = 0.8072727272727273
 
-
-class OrdinalTest(StageTest):
+class TargetTest(StageTest):
 
     def generate(self) -> List[TestCase]:
         return [TestCase(time_limit=1000000)]
@@ -36,4 +35,4 @@ class OrdinalTest(StageTest):
 
 
 if __name__ == '__main__':
-    OrdinalTest().run_tests()
+    TargetTest().run_tests()
